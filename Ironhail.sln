@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.25807.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{AE7EE4CC-593D-4C9B-9EF9-9517713D0000}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{A9AD20ED-B4AC-4253-885A-BF7525AB6BD0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{36698C60-1E56-4880-B866-D53A2656FDFE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{F4ADB44B-6817-408D-BBDF-674408E3558B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UE4", "Intermediate\ProjectFiles\UE4.vcxproj", "{926B7C84-6691-479D-B6EA-DAEBD8467485}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ironhail", "Intermediate\ProjectFiles\Ironhail.vcxproj", "{F1397EAC-1B79-4227-B8D1-DDB1C71B1F4D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visualizers", "Visualizers", "{90A9C20E-53A2-4193-9C9B-A2ED505607C1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visualizers", "Visualizers", "{606F2DBB-5EE7-4A05-8A15-E81CA20879BC}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\UE_4.24\Engine\Extras\VisualStudioDebugging\UE4.natvis = ..\..\UE_4.24\Engine\Extras\VisualStudioDebugging\UE4.natvis
 	EndProjectSection
@@ -63,7 +63,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{926B7C84-6691-479D-B6EA-DAEBD8467485} = {AE7EE4CC-593D-4C9B-9EF9-9517713D0000}
-		{F1397EAC-1B79-4227-B8D1-DDB1C71B1F4D} = {36698C60-1E56-4880-B866-D53A2656FDFE}
+		{926B7C84-6691-479D-B6EA-DAEBD8467485} = {A9AD20ED-B4AC-4253-885A-BF7525AB6BD0}
+		{F1397EAC-1B79-4227-B8D1-DDB1C71B1F4D} = {F4ADB44B-6817-408D-BBDF-674408E3558B}
 	EndGlobalSection
 EndGlobal
