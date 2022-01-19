@@ -1,6 +1,5 @@
 #pragma once
 #include "MissileRack.h"
-#include "MyParticleHelper.h"
 
 
 AWalker* AMissileRack::FindEnemy() {
@@ -9,7 +8,6 @@ AWalker* AMissileRack::FindEnemy() {
 }
 //TODO redo with multiple shots
 void AMissileRack::FireToEnemy() {
-	
 	if (IsValid(Fire_Particle)&&IsValid(PreferedEnemy)) {
 		if (Fire_Socket_Names.IsValidIndex(0)) {
 			FVector F_Loc = Head->GetSocketLocation(Fire_Socket_Names[0]);

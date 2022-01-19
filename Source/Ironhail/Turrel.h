@@ -3,6 +3,7 @@
 #include "ActionMachine.h"
 #include "Walker.h"
 #include "GameFramework/Actor.h"
+#include "TurrelParticleHelper.h"
 #include "Components/StaticMeshComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
@@ -13,7 +14,7 @@
 #include "Turrel.generated.h"
 
 UCLASS()
-class IRONHAIL_API ATurrel : public AActor, public IActionMachine
+class IRONHAIL_API ATurrel : public AActor, public IActionMachine, public ITurrelParticleHelper
 {
 	GENERATED_BODY()
 public:	
@@ -31,9 +32,8 @@ protected:
 		UStaticMeshComponent* Body = nullptr;
 	UPROPERTY(EditAnywhere, Category = A_Hull)
 		UStaticMeshComponent* Head = nullptr;
-	UPROPERTY(EditAnywhere, Category = A_Hull)
+	UPROPERTY(EditAnywhere, Category = A_Bath)
 		UParticleSystem* Fire_Particle;
-	UPROPERTY(EditAnywhere, Category = A_Hull)
 	FName Head_Socket_Name = TEXT("Head_Socket");
 	FName Head_Face_Socket_Name = TEXT("Face_Socket");
 
