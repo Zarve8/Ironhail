@@ -27,18 +27,22 @@ protected:
 	AWalker* FindNearestEnemy();
 	AWalker* FindToughestEnemy();
 	AWalker* FindWeakestEnemy();
-	UPROPERTY(EditAnywhere, Category = A_Hull)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = A_Hull)
 		UStaticMeshComponent* Body = nullptr;
 	UPROPERTY(EditAnywhere, Category = A_Hull)
 		UStaticMeshComponent* Head = nullptr;
+	UPROPERTY(EditAnywhere, Category = A_Hull)
+		UParticleSystem* Fire_Particle;
+	UPROPERTY(EditAnywhere, Category = A_Hull)
 	FName Head_Socket_Name = TEXT("Head_Socket");
 	FName Head_Face_Socket_Name = TEXT("Face_Socket");
 
 public:	
 	AWalker* PreferedEnemy = nullptr;
 	virtual void Tick(float DeltaTime) override;
+	virtual void OnConstruction(const FTransform & Transform) override;
 	virtual Action_AM* GetBaseAction() override;
-	virtual AWalker* FindEnemy() {return nullptr;}
+	virtual AWalker* FindEnemy() {return nullptr; UE_LOG(LogTemp, Error, TEXT("FindEnemy not overrided"));}
 	virtual float CalculateRotateTime();
 	virtual void StartRotate();
 	virtual void ProceedRotate(float delta_seconds) {}
@@ -52,7 +56,6 @@ public:
 		float shoot_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float fire_distance = 100;
-
 };
 
 
@@ -61,6 +64,7 @@ class Reload_AM : public Action_AM {
 public:
 	Reload_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->reload_time;
+		UE_LOG(LogTemp, Error, TEXT("Start Reload"));
 	}
 	virtual void Start() override {
 		Owner->Reload();
@@ -81,6 +85,7 @@ public:
 	}
 	virtual void Start() override {
 		Owner->FireToEnemy();
+		UE_LOG(LogTemp, Error, TEXT("Start Fire"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedFire(delta_seconds);
@@ -95,15 +100,17 @@ class Rotate_AM : public Action_AM {
 public:
 	Rotate_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->CalculateRotateTime();
+		UE_LOG(LogTemp, Error, TEXT("Calculating Rotate"));
 	}
 	virtual void Start() {
 		Owner->StartRotate();
+		UE_LOG(LogTemp, Error, TEXT("Rotating"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedRotate(delta_seconds);
 	}
 	virtual Action_AM* Next() {
-		if (Owner->PreferedEnemy) {
+		if (IsValid(Owner->PreferedEnemy)) {
 			return new Fire_AM(Owner);
 		}
 		return nullptr;
@@ -118,9 +125,10 @@ public:
 	}
 	virtual void Start() override {
 		Owner->PreferedEnemy = Owner->FindEnemy();
+		UE_LOG(LogTemp, Error, TEXT("Find Enemy"));
 	}
 	virtual Action_AM* Next() {
-		if (Owner->PreferedEnemy) {
+		if (IsValid(Owner->PreferedEnemy)) {
 			return new Rotate_AM(Owner);
 		}
 		return new Delay_AM();

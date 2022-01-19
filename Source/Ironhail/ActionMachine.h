@@ -59,6 +59,11 @@ public:
 	}
 	IActionMachine() {
 		Current_Action = GetBaseAction();
+		if (!Current_Action) {
+			Current_Action = new Delay_AM();
+		}
+	}
+	void ActionBeginPlay() {
 		if (Current_Action) {
 			Current_Action->Start();
 		}

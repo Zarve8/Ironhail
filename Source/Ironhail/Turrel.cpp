@@ -1,24 +1,29 @@
 #include "Turrel.h"
 
+
 ATurrel::ATurrel()
 {
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
-	Body->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SetRootComponent(Body);
 	Head = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Head"));
-	if(Body->GetSocketByName(Head_Socket_Name)){
-		Head->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform, Head_Socket_Name);
-	}
-	else {
-		Head->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	}
-	BaseLoc = GetActorLocation();
+	Head->SetupAttachment(RootComponent);
 	PrimaryActorTick.bCanEverTick = true;
 
 }
+void ATurrel::OnConstruction(const FTransform & Transform) {
+	BaseLoc= Transform.GetLocation();
+	if (Body->GetSocketByName(Head_Socket_Name)) {
+		Head->AttachToComponent(Body, FAttachmentTransformRules::SnapToTargetIncludingScale, Head_Socket_Name);
+	}
+	else {
+		Head->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		UE_LOG(LogTemp, Error, TEXT("Socket not found"));
+	}
+}
 void ATurrel::BeginPlay()
 {
+	ActionBeginPlay();
 	Super::BeginPlay();
-	
 }
 void ATurrel::Tick(float DeltaTime)
 {
@@ -27,6 +32,7 @@ void ATurrel::Tick(float DeltaTime)
 
 }
 Action_AM* ATurrel::GetBaseAction() {
+	UE_LOG(LogTemp, Error, TEXT("GetBaseAction"));
 	return new Search_AM(this);
 }
 //TODO redo if want to roate smoothly
@@ -38,30 +44,34 @@ float ATurrel::CalculateRotateTime() {
 	}
 	else {
 		FaceLoc = GetActorLocation();
+		UE_LOG(LogTemp, Error, TEXT("No Face Socket"));   
 	}
-	FVector N = PreferedEnemy->GetActorLocation() - FaceLoc;
+	FVector N = FaceLoc - PreferedEnemy->GetActorLocation();
 	Target_Rotation = N.Rotation();
 	return 0.01;
 }
-//TODO check for right angle
 void ATurrel::StartRotate() {
 	float Yaw = Target_Rotation.Yaw;
 	float Pitch = Target_Rotation.Pitch;
-	Body->SetRelativeRotation(FRotator(0, 0, Yaw));
+	float Roll = Target_Rotation.Roll;
+	this->SetActorRotation(FRotator(0, Yaw, 0));
 	Head->SetRelativeRotation(FRotator(Pitch, 0, 0));
 }
 AWalker* ATurrel::FindAnyEnemy() {
 	TArray<AActor*> FoundEnemies;
+	BaseLoc = GetActorLocation();
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWalker::StaticClass(), FoundEnemies);
-	int length = FoundEnemies.GetAllocatedSize();
-	for (int i = 0; i < length; i++) {
+	int i = 0;
+	while(FoundEnemies.IsValidIndex(i)){
 		FVector EnemyLoc = FoundEnemies[i]->GetActorLocation();
 		if (fire_distance >= FVector::Distance(BaseLoc, EnemyLoc)) {
 			return Cast<AWalker>(FoundEnemies[i]);
 		}
+		i++;
 	}
 	return nullptr;
 }
+//
 AWalker* ATurrel::FindNearestEnemy() {
 	TArray<AActor*> FoundEnemies;
 	AActor* NearestEnemy = nullptr;
@@ -78,6 +88,7 @@ AWalker* ATurrel::FindNearestEnemy() {
 	return Cast<AWalker>(NearestEnemy);
 
 }
+//
 AWalker* ATurrel::FindToughestEnemy() {
 	TArray<AActor*> FoundEnemies;
 	AWalker* ToughestEnemy = nullptr;

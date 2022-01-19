@@ -4,6 +4,7 @@
 #include "PathPivot.h"
 #include "ActionMachine.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Walker.generated.h"
 
 UCLASS()
