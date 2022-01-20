@@ -5,13 +5,12 @@
 AWalker::AWalker()
 {
 	Body = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Body"));
-	
+	SetRootComponent(Body);
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 void AWalker::BeginPlay()
 {
-	Body->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	TArray<AActor*> Pathes;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APathPivot::StaticClass(), Pathes);
 	if (Pathes.IsValidIndex(0)) {
