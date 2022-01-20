@@ -27,4 +27,9 @@ protected:
 		FRotator R = (TargetLoc - BaseLoc).Rotation();
 		UParticleSystemComponent* j = UGameplayStatics::SpawnEmitterAtLocation(Owner->GetWorld(), Particle, BaseLoc, R, true);
 	}
+	//TODO
+	void AttachParticleLine(FVector BaseLoc, FVector TargetLoc, UParticleSystem* Particle, AActor* Owner, const UStaticMeshSocket* _Socket) {
+		FRotator R = (TargetLoc - BaseLoc).Rotation();
+		UParticleSystemComponent* j = UGameplayStatics::SpawnEmitterAtLocation(Owner->GetWorld(), Particle, BaseLoc, R, true);
+	}
 };
