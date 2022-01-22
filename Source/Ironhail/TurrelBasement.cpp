@@ -11,23 +11,28 @@ ATurrelBasement::ATurrelBasement()
 	{
 		Body->SetStaticMesh(Base.Object);
 	}
-	//Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	//Body->SetCollisionEnabled(true);
-	//Body->OnBeginCursorOver.AddDynamic(this, &ATurrelBasement::CustomOnBeginMouseOver);
+	SetRootComponent(Body);
 	Body->OnInputTouchEnter.AddDynamic(this, &ATurrelBasement::CustomOnBeginTouch);
 	Body->OnInputTouchLeave.AddDynamic(this, &ATurrelBasement::CustomOnEndTouch);
-	static ConstructorHelpers::FObjectFinder<UPaperSprite> DoubleCircle(TEXT("PaperSprite'/Game/Content/Source/HUD/DistanceProjectiles/DoubleCircle_Sprite'"));
+	static ConstructorHelpers::FObjectFinder<UPaperSprite> DoubleCircle(TEXT("PaperSprite'/Game/Source/HUD/DistanceProjectiles/DoubleCircle_Sprite'"));
 	DistanceSprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("DistanceProjectile"));
 	if (DoubleCircle.Succeeded())
 	{
 		DistanceSprite->SetSprite(DoubleCircle.Object);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PaperSprite not found"));
+	}
+	//DistanceSprite->SetCollisionEnable(ECollisionEnabled::NoCollision);
 }
 void ATurrelBasement::OnConstruction(const FTransform & Transform) {
-	SetRootComponent(Body);
-	Body->SetVisibility(false, false);
+	
+	//Body->SetVisibility(false, false);
 	DistanceSprite->AttachToComponent(Body, FAttachmentTransformRules::SnapToTargetIncludingScale);
-	DistanceSprite->SetRelativeRotation(FRotator(90, 0, 0));
+	DistanceSprite->SetRelativeRotation(FRotator(0, 0, 90));
+	DistanceSprite->SetRelativeLocation(FVector(0, 0, 5));
+	DistanceSprite->SetRelativeScale3D(FVector(0.2, 0.2, 0.2));
 	
 }
 void ATurrelBasement::BeginPlay()
