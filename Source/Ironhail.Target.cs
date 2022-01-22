@@ -10,5 +10,6 @@ public class IronhailTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.AddRange( new string[] { "Ironhail" } );
-	}
+        
+    }
 }
