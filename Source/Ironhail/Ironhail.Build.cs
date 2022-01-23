@@ -8,7 +8,7 @@ public class Ironhail : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });
         PublicDependencyModuleNames.AddRange(new string[] { "Paper2D" });
 
         PrivateDependencyModuleNames.AddRange(new string[] {  });

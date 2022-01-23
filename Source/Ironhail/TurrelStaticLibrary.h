@@ -41,17 +41,4 @@ enum Turel {
 
 
 
-#ifndef TURRELSTATICLIBRARY_H
-#define TURRELSTATICLIBRARY_H
-
-
-TSubclassOf<ATurrel> TurrelFabric(TEnumAsByte<Turel> TurrelType) {
-	const FSoftClassPath BlockPath(TEXT("/Game/Turrels/BurstCannon_BP"));
-	TSubclassOf<ATurrel> MMM = BlockPath.TryLoadClass<ATurrel>();
-	return MMM;
-}
-
-
-#endif //TURRELSTATICLIBRARY_H
-
 
