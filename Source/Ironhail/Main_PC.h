@@ -4,6 +4,9 @@
 #include "Blueprint/UserWidget.h"
 #include "TurrelExternalData.h"
 #include "TurrelStaticLibrary.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "Engine.h"
 #include "Main_PC.generated.h"
 
 
@@ -17,9 +20,9 @@ protected:
 	UUserWidget* TurrelShowCase = nullptr;
 	TSubclassOf<UUserWidget> MenuBuildClass;
 	UUserWidget* MenuBuild = nullptr;
-
 	//External DAta for Widgets:
 public:
+	ATurrelExternalData* ExternalDataFabric(TEnumAsByte<Turel> TurrelType);
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		ATurrelExternalData* TurrelShowCaseData = nullptr;
 	//Function to show Widgets:

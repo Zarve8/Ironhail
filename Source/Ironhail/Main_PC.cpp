@@ -1,7 +1,6 @@
+#pragma once
 #include "Main_PC.h"
-#include "UObject/ConstructorHelpers.h"
-#include "Kismet/GameplayStatics.h"
-#include "Engine.h"
+
 
 AMain_PC::AMain_PC() {
 	static ConstructorHelpers::FClassFinder<UUserWidget> SObject1(TEXT("/Game/Blueprints/Widgets/TurrelShowCase_W")); //Load Widget BlueprintClasses
@@ -20,8 +19,7 @@ void AMain_PC::HideTurrelWidget() {
 
 }
 void AMain_PC::ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level) {
-	TurrelShowCaseData = NewObject<ATurrelExternalData>();
-	TurrelShowCaseData->SetUp(E_Empty);
+	TurrelShowCaseData = ExternalDataFabric(TurrelType);
 	if (IsValid(TurrelShowCaseClass)) {
 		TurrelShowCase = CreateWidget<UUserWidget>(this, TurrelShowCaseClass);
 		TurrelShowCase->AddToPlayerScreen();
@@ -44,4 +42,7 @@ void AMain_PC::ShowBuildWidget() {
 }
 void AMain_PC::HideBuildWidget() {
 
+}
+ATurrelExternalData*  AMain_PC::ExternalDataFabric(TEnumAsByte<Turel> TurrelType) {
+	return NewObject<ATurrelExternalData>();
 }
