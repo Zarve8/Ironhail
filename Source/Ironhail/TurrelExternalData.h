@@ -15,6 +15,8 @@ class IRONHAIL_API ATurrelExternalData : public AActor
 public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		UTexture2D* TIcon;
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+		int BuyCost = 1000;
 public:
 	ATurrelExternalData() {
 		static ConstructorHelpers::FObjectFinder<UTexture2D> TurrelIcon(TEXT("/Game/Source/HUD/TurrelIcons/ChipCoin"));
@@ -25,5 +27,14 @@ public:
 			UE_LOG(LogTemp, Error, TEXT("Texture Icon Not found"));
 		}
 		PrimaryActorTick.bCanEverTick = true;
+	}
+};
+
+UCLASS()
+class IRONHAIL_API AProxyData_ED : public ATurrelExternalData {
+	GENERATED_BODY()
+public:
+	AProxyData_ED() : ATurrelExternalData() {
+
 	}
 };

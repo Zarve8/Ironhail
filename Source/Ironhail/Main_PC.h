@@ -16,6 +16,8 @@ class IRONHAIL_API AMain_PC : public APlayerController
 	GENERATED_BODY()
 	//Widget Classes:
 protected:
+	TSubclassOf<UUserWidget> MenuBarClass;
+	UUserWidget* MenuBar = nullptr;
 	TSubclassOf<UUserWidget> TurrelShowCaseClass;
 	UUserWidget* TurrelShowCase = nullptr;
 	TSubclassOf<UUserWidget> MenuBuildClass;
@@ -25,24 +27,21 @@ public:
 	ATurrelExternalData* ExternalDataFabric(TEnumAsByte<Turel> TurrelType);
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		ATurrelExternalData* TurrelShowCaseData = nullptr;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		TArray<ATurrelExternalData*> BuildArrayData;
 	//Function to show Widgets:
 public:
 	UFUNCTION(BlueprintCallable)
-		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level);
+		void CreateMenuBar();
 	UFUNCTION(BlueprintCallable)
-		void HideTurrelWidget();
+		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level);
 	UFUNCTION(BlueprintCallable)
 		void ShowMissionsWidget();
 	UFUNCTION(BlueprintCallable)
-		void HideMissionsWidget();
-	UFUNCTION(BlueprintCallable)
 		void ShowPowerUpsWidget();
 	UFUNCTION(BlueprintCallable)
-		void HidePowerUpsWidget();
-	UFUNCTION(BlueprintCallable)
 		void ShowBuildWidget();
-	UFUNCTION(BlueprintCallable)
-		void HideBuildWidget();
+
 
 public:
 	AMain_PC();
