@@ -22,7 +22,7 @@ AMain_PC::AMain_PC() {
 void AMain_PC::BeginPlay() {
 	Super::BeginPlay();
 	CreateMenuBar();
-	UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this, false, true);
+	UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this, false, false);
 }
 void AMain_PC::Tick(float DealtaTime) {
 
@@ -60,4 +60,17 @@ void AMain_PC::ShowBuildWidget() {
 }
 ATurrelExternalData*  AMain_PC::ExternalDataFabric(TEnumAsByte<Turel> TurrelType) {
 	return NewObject<AProxyData_ED>();
+}
+AActor* AMain_PC::ScreenTouched() {
+	if (IsValid(MenuBuild)) {
+		MenuBuild->RemoveFromParent();
+		MenuBuild->Destruct();
+		MenuBuild = nullptr;
+		ActiveBasement = nullptr;
+		return ActiveBasement;
+	}
+	return nullptr;
+}
+void AMain_PC::SetActiveBasement(AActor* NewActive) {
+	ActiveBasement = NewActive;
 }

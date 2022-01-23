@@ -14,6 +14,8 @@ UCLASS()
 class IRONHAIL_API AMain_PC : public APlayerController
 {
 	GENERATED_BODY()
+protected:
+	AActor* ActiveBasement = nullptr;
 	//Widget Classes:
 protected:
 	TSubclassOf<UUserWidget> MenuBarClass;
@@ -41,8 +43,8 @@ public:
 		void ShowPowerUpsWidget();
 	UFUNCTION(BlueprintCallable)
 		void ShowBuildWidget();
-
-
+	AActor* ScreenTouched();
+	void SetActiveBasement(AActor* NewActive);
 public:
 	AMain_PC();
 	void BeginPlay() override;

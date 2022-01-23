@@ -37,6 +37,7 @@ void ATurrelBasement::OnConstruction(const FTransform & Transform) {
 }
 void ATurrelBasement::BeginPlay()
 {
+	PC = Cast<AMain_PC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	Super::BeginPlay();
 	
 }
@@ -46,10 +47,18 @@ void ATurrelBasement::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 }
 void  ATurrelBasement::CustomOnBeginTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent) {
-	UE_LOG(LogTemp, Warning, TEXT("Triggered"));
+	PC->SetActiveBasement(this);
+	PC->ShowTurrelWidget(TurrelType, level);
+	Activate();
 }
 void  ATurrelBasement::CustomOnEndTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent) {
 	UE_LOG(LogTemp, Warning, TEXT("Ended"));
+}
+void ATurrelBasement::Activate() {
+
+}
+void ATurrelBasement::Deactivate() {
+
 }
 
 
