@@ -39,7 +39,7 @@ void ATurrelBasement::BeginPlay()
 {
 	PC = Cast<AMain_PC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	Super::BeginPlay();
-	//SpawnTurrel(Init_Type);
+	SpawnTurrel(Init_Type);
 }
 void ATurrelBasement::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

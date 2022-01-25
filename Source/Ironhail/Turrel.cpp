@@ -8,7 +8,9 @@ ATurrel::ATurrel()
 	Head = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Head"));
 	Head->SetupAttachment(RootComponent);
 	PrimaryActorTick.bCanEverTick = true;
-
+	//this->SetCollisionEnable(ECollisionEnabled::NoCollision);
+	//Head->SetCollisionEnabled
+	this->SetActorEnableCollision(ECollisionEnabled::NoCollision);
 }
 void ATurrel::OnConstruction(const FTransform & Transform) {
 	BaseLoc= Transform.GetLocation();
@@ -23,6 +25,7 @@ void ATurrel::OnConstruction(const FTransform & Transform) {
 }
 void ATurrel::BeginPlay()
 {
+	this->SetActorEnableCollision(ECollisionEnabled::NoCollision);
 	ActionBeginPlay();
 	Super::BeginPlay();
 }

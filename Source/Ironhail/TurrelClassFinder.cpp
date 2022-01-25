@@ -3,9 +3,8 @@
 
 
  ATurrelClassFinder::ATurrelClassFinder() {
-	 /*
 	 PrimaryActorTick.bCanEverTick = false;
-	static ConstructorHelpers::FClassFinder<ATurrel> SObject00(TEXT("/Game/Blueprints/Turrels/AutoCannon_2_BP"));
+	static ConstructorHelpers::FClassFinder<ATurrel> SObject00(TEXT("/Game/Blueprints/Turrels/EmptyTurrel_BP"));
 	if (SObject00.Succeeded()) {
 		Empty = SObject00.Class;
 	}
@@ -110,7 +109,6 @@
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Turrel Class not found"));
 	}
-	*/
 }
 
 TSubclassOf<ATurrel> ATurrelClassFinder::GetTurrelClassByEnum(TEnumAsByte<Turel> Type) {
