@@ -50,6 +50,7 @@ public:
 	virtual void ProceedFire(float delta_seconds) {}
 	virtual void Reload() {}
 	virtual void ProceedReload(float delta_seconds) {}
+	virtual void EndReload() {}
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float reload_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
@@ -110,6 +111,7 @@ public:
 		Owner->ProceedRotate(delta_seconds);
 	}
 	virtual Action_AM* Next() {
+		Owner->EndReload();
 		if (IsValid(Owner->PreferedEnemy)) {
 			return new Fire_AM(Owner);
 		}
