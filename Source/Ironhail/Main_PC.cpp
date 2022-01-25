@@ -17,6 +17,7 @@ AMain_PC::AMain_PC() {
 	if (SObject2.Succeeded()) {
 		MenuBuildClass = SObject2.Class;
 	}
+	TFinder = NewObject<ATurrelClassFinder>();
 	PrimaryActorTick.bCanEverTick = true;
 }
 void AMain_PC::BeginPlay() {
@@ -30,14 +31,17 @@ void AMain_PC::Tick(float DealtaTime) {
 void AMain_PC::CreateMenuBar() {
 	if (IsValid(MenuBarClass)) {
 		MenuBar = CreateWidget<UUserWidget>(this, MenuBarClass);
-		MenuBar->AddToPlayerScreen();
+		MenuBar->AddToPlayerScreen(5);
 	}
 }
 void AMain_PC::ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level) {
 	TurrelShowCaseData = ExternalDataFabric(TurrelType);
 	if (IsValid(TurrelShowCaseClass)) {
 		TurrelShowCase = CreateWidget<UUserWidget>(this, TurrelShowCaseClass);
-		TurrelShowCase->AddToPlayerScreen();
+		TurrelShowCase->AddToPlayerScreen(6);
+	}
+	if (IsValid(TurrelShowCase)) {
+		UE_LOG(LogTemp, Error, TEXT("Showcase added"));
 	}
 }
 void AMain_PC::ShowMissionsWidget() {
@@ -53,20 +57,21 @@ void AMain_PC::ShowBuildWidget() {
 		UE_LOG(LogTemp, Warning, TEXT("U"));
 	}
 	if (IsValid(MenuBuildClass)) {
-		MenuBuild = CreateWidget<UUserWidget>(this, MenuBuildClass);
-		MenuBuild->AddToPlayerScreen();
+		this->MenuBuild = CreateWidget<UUserWidget>(this, MenuBuildClass);
+		this->MenuBuild->AddToPlayerScreen(3);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Created Build Menu"));
 }
 ATurrelExternalData*  AMain_PC::ExternalDataFabric(TEnumAsByte<Turel> TurrelType) {
 	return NewObject<AProxyData_ED>();
 }
 AActor* AMain_PC::ScreenTouched() {
-	if (IsValid(MenuBuild)) {
-		MenuBuild->RemoveFromParent();
-		MenuBuild->Destruct();
-		MenuBuild = nullptr;
+	UE_LOG(LogTemp, Warning, TEXT("Get Touch to PC"));
+	if (IsValid(this->TurrelShowCase)) {
+		TurrelShowCase->RemoveFromParent();
+		TurrelShowCase->Destruct();
+		TurrelShowCase = nullptr;
 		ActiveBasement = nullptr;
+		UE_LOG(LogTemp, Warning, TEXT("Destorying"));
 		return ActiveBasement;
 	}
 	return nullptr;

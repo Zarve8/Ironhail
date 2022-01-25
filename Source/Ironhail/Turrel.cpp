@@ -19,6 +19,7 @@ void ATurrel::OnConstruction(const FTransform & Transform) {
 		Head->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		UE_LOG(LogTemp, Error, TEXT("Socket not found"));
 	}
+	Head->SetRelativeScale3D(Head_Scale);
 }
 void ATurrel::BeginPlay()
 {
@@ -32,7 +33,7 @@ void ATurrel::Tick(float DeltaTime)
 
 }
 Action_AM* ATurrel::GetBaseAction() {
-	UE_LOG(LogTemp, Error, TEXT("GetBaseAction"));
+	//UE_LOG(LogTemp, Error, TEXT("GetBaseAction"));
 	return new Search_AM(this);
 }
 //TODO redo if want to roate smoothly

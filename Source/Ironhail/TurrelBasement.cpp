@@ -39,7 +39,7 @@ void ATurrelBasement::BeginPlay()
 {
 	PC = Cast<AMain_PC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	Super::BeginPlay();
-	
+	//SpawnTurrel(Init_Type);
 }
 void ATurrelBasement::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -59,6 +59,19 @@ void ATurrelBasement::Activate() {
 }
 void ATurrelBasement::Deactivate() {
 
+}
+void  ATurrelBasement::SpawnTurrel(TEnumAsByte<Turel> Type) {
+	this->DestroyTurrel();
+	TSubclassOf<ATurrel> TType = PC->TFinder->GetTurrelClassByEnum(Type);
+	if (!IsValid(TType)) return;
+	FVector Loc = this->GetActorLocation();
+	ChildTurrel = Cast<ATurrel>(GetWorld()->SpawnActor(TType, &Loc));
+}
+void  ATurrelBasement::DestroyTurrel() {
+	if (IsValid(ChildTurrel)) {
+		ChildTurrel->Destroy();
+		ChildTurrel = nullptr;
+	}
 }
 
 

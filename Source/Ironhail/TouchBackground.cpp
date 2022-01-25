@@ -21,6 +21,7 @@ void ATouchBackground::BeginPlay() {
 	PC = Cast<AMain_PC>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 }
 void  ATouchBackground::CustomOnBeginTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent) {
+	UE_LOG(LogTemp, Display, TEXT("Backgroung Touched"));
 	AActor* B = PC->ScreenTouched();
 	if (!IsValid(B)) return;
 	ATurrelBasement* Base = Cast<ATurrelBasement>(B);

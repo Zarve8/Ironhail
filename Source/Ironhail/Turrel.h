@@ -28,6 +28,8 @@ protected:
 	AWalker* FindNearestEnemy();
 	AWalker* FindToughestEnemy();
 	AWalker* FindWeakestEnemy();
+	UPROPERTY(EditAnywhere, Category = A_Bath)
+		FVector Head_Scale = FVector(1, 1, 1);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = A_Hull)
 		UStaticMeshComponent* Body = nullptr;
 	UPROPERTY(EditAnywhere, Category = A_Hull)
@@ -65,7 +67,7 @@ class Reload_AM : public Action_AM {
 public:
 	Reload_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->reload_time;
-		UE_LOG(LogTemp, Error, TEXT("Start Reload"));
+		//UE_LOG(LogTemp, Error, TEXT("Start Reload"));
 	}
 	virtual void Start() override {
 		Owner->Reload();
@@ -86,7 +88,7 @@ public:
 	}
 	virtual void Start() override {
 		Owner->FireToEnemy();
-		UE_LOG(LogTemp, Error, TEXT("Start Fire"));
+		//UE_LOG(LogTemp, Error, TEXT("Start Fire"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedFire(delta_seconds);
@@ -101,11 +103,11 @@ class Rotate_AM : public Action_AM {
 public:
 	Rotate_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->CalculateRotateTime();
-		UE_LOG(LogTemp, Error, TEXT("Calculating Rotate"));
+		//UE_LOG(LogTemp, Error, TEXT("Calculating Rotate"));
 	}
 	virtual void Start() {
 		Owner->StartRotate();
-		UE_LOG(LogTemp, Error, TEXT("Rotating"));
+		//UE_LOG(LogTemp, Error, TEXT("Rotating"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedRotate(delta_seconds);
@@ -127,7 +129,7 @@ public:
 	}
 	virtual void Start() override {
 		Owner->PreferedEnemy = Owner->FindEnemy();
-		UE_LOG(LogTemp, Error, TEXT("Find Enemy"));
+		//UE_LOG(LogTemp, Error, TEXT("Find Enemy"));
 	}
 	virtual Action_AM* Next() {
 		if (IsValid(Owner->PreferedEnemy)) {

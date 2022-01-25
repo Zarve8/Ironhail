@@ -6,6 +6,7 @@
 #include "TurrelStaticLibrary.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "TurrelClassFinder.h"
 #include "Engine.h"
 #include "Main_PC.generated.h"
 
@@ -49,5 +50,5 @@ public:
 	AMain_PC();
 	void BeginPlay() override;
 	void Tick(float DealtaTime) override;
-	
+	ATurrelClassFinder* TFinder = nullptr;	
 };
