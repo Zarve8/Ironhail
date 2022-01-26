@@ -5,6 +5,7 @@ ALongArm::ALongArm(): ATurrel(){
 	MagShaft = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Shaft"));
 	Mag = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mag"));
 	PrimaryActorTick.bCanEverTick = true;
+	Head_Scale = FVector(0.9, 0.7, 0.8);
 }
 void ALongArm::OnConstruction(const FTransform & Transform) {
 	ATurrel::OnConstruction(Transform);

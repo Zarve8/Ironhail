@@ -13,32 +13,43 @@ UCLASS()
 class IRONHAIL_API ATurrelBasement : public APawn
 {
 	GENERATED_BODY()
-
-public:
-	ATurrelBasement();
 	//Proxy
 public:
 	UPROPERTY(EditAnywhere, Category = AA_Proxy)
 		TEnumAsByte<Turel> Init_Type = E_Empty;
+	//Body
 protected:
 	UPROPERTY(EditAnywhere, Category = A_Body)
 		UStaticMeshComponent* Body;
 	UPROPERTY(EditAnywhere, Category = A_Body)
 		UPaperSpriteComponent* DistanceSprite;
+	UPROPERTY(EditAnywhere, Category = A_Body)
+		UPaperSpriteComponent* PlacementSprite;
+	//External classes
+public:
 	AMain_PC* PC;
-	TEnumAsByte<Turel> TurrelType = E_Empty;
-	ATurrel* ChildTurrel = nullptr;
+	//Constructors
 public:	
+	ATurrelBasement();
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform & Transform) override;
+	//Inputs
+public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void Activate();
-	void Deactivate();
-	void SpawnTurrel(TEnumAsByte<Turel> Type);
-	void DestroyTurrel();
 	UFUNCTION()
 		void CustomOnBeginTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	UFUNCTION()
 		void CustomOnEndTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
+	//Turrel Actions/Prperties
+public:
 	int level = 1;
+	void SpawnTurrel(TEnumAsByte<Turel> Type);
+	void DestroyTurrel();
+	TEnumAsByte<Turel> TurrelType = E_Empty;
+	ATurrel* ChildTurrel = nullptr;
+	//Show Actions
+public:
+	bool ShowForPlacement();
+	bool ShowActiveTurrel();
+	void Deactivate();
 };

@@ -109,6 +109,20 @@
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Turrel Class not found"));
 	}
+	static ConstructorHelpers::FClassFinder<ATurrel> SObject14(TEXT("/Game/Blueprints/Turrels/Laser_5_BP"));
+	if (SObject14.Succeeded()) {
+		Laser_5 = SObject14.Class;
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("Turrel Class not found"));
+	}
+	static ConstructorHelpers::FClassFinder<ATurrel> SObject15(TEXT("/Game/Blueprints/Turrels/Laser_6_BP"));
+	if (SObject15.Succeeded()) {
+		Laser_6 = SObject15.Class;
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("Turrel Class not found"));
+	}
 }
 
 TSubclassOf<ATurrel> ATurrelClassFinder::GetTurrelClassByEnum(TEnumAsByte<Turel> Type) {
@@ -116,13 +130,13 @@ TSubclassOf<ATurrel> ATurrelClassFinder::GetTurrelClassByEnum(TEnumAsByte<Turel>
 	case E_AutoCannon_2:
 		return AutoCannon_2;
 	case E_AutoCannon_3:
-		return AutoCannon_2;
+		return AutoCannon_3;
 	case E_AutoCannon_4:
-		return AutoCannon_2;
+		return AutoCannon_4;
 	case E_AutoCannon_5:
-		return AutoCannon_2;
+		return AutoCannon_5;
 	case E_AutoCannon_6:
-		return AutoCannon_2;
+		return AutoCannon_6;
 	case E_RocketPod_4:
 		return RocketPod_4;
 	case E_RocketPod_5:

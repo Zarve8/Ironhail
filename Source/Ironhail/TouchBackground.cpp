@@ -22,11 +22,7 @@ void ATouchBackground::BeginPlay() {
 }
 void  ATouchBackground::CustomOnBeginTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent) {
 	UE_LOG(LogTemp, Display, TEXT("Backgroung Touched"));
-	AActor* B = PC->ScreenTouched();
-	if (!IsValid(B)) return;
-	ATurrelBasement* Base = Cast<ATurrelBasement>(B);
-	if (!IsValid(Base)) return;
-	Base->Deactivate();
+	PC->ScreenTouched();
 }
 
 

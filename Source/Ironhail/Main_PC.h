@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "TurrelClassFinder.h"
 #include "Engine.h"
+#include "MenuStateEnum.h"
 #include "Main_PC.generated.h"
 
 
@@ -15,8 +16,6 @@ UCLASS()
 class IRONHAIL_API AMain_PC : public APlayerController
 {
 	GENERATED_BODY()
-protected:
-	AActor* ActiveBasement = nullptr;
 	//Widget Classes:
 protected:
 	TSubclassOf<UUserWidget> MenuBarClass;
@@ -24,8 +23,8 @@ protected:
 	TSubclassOf<UUserWidget> TurrelShowCaseClass;
 	UUserWidget* TurrelShowCase = nullptr;
 	TSubclassOf<UUserWidget> MenuBuildClass;
-	UUserWidget* MenuBuild = nullptr;
-	//External DAta for Widgets:
+	UUserWidget* MenuBuildWidget = nullptr;
+	//External Data for Widgets:
 public:
 	ATurrelExternalData* ExternalDataFabric(TEnumAsByte<Turel> TurrelType);
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
@@ -33,22 +32,48 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		TArray<ATurrelExternalData*> BuildArrayData;
 	//Function to show Widgets:
+protected:
+	void HideAllWidgets();
+		void CreateMenuBar();
+		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level);
+		void HideTurrelWidget();
+		void ShowMissionsWidget();
+		void ShowPowerUpsWidget();
+		void ShowBuildWidget();
+		void HideBuildWidget();
+	//Functions called in widgets
 public:
 	UFUNCTION(BlueprintCallable)
-		void CreateMenuBar();
+		void BuildButtonPressed();
 	UFUNCTION(BlueprintCallable)
-		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level);
+		void MissionButtonPressed();
 	UFUNCTION(BlueprintCallable)
-		void ShowMissionsWidget();
+		void PowerUpButtonPressed();
 	UFUNCTION(BlueprintCallable)
-		void ShowPowerUpsWidget();
+		void BuyPressed();
 	UFUNCTION(BlueprintCallable)
-		void ShowBuildWidget();
-	AActor* ScreenTouched();
-	void SetActiveBasement(AActor* NewActive);
+		void MovePressed();
+	UFUNCTION(BlueprintCallable)
+		void SellPressed();
+	//Functions called from Basement
+public:
+	void ScreenTouched();
+	void TurrelTouched(AActor* NewBase);
+	//State Actions
+protected:
+	void SetAllForPlacement();
+	void DeactivateAll();
+	//Constructers
 public:
 	AMain_PC();
 	void BeginPlay() override;
 	void Tick(float DealtaTime) override;
-	ATurrelClassFinder* TFinder = nullptr;	
+public:
+	AActor* ActiveBasement = nullptr;
+	ATurrelClassFinder* TFinder = nullptr;
+	TEnumAsByte<MenuState> CurrentState = E_Playing;
+	UPROPERTY(BlueprintReadOnly)
+		int SoftCoins = 100;
+	UPROPERTY(BlueprintReadOnly)
+		int HardCoins = 100;
 };

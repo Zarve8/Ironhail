@@ -35,7 +35,6 @@ enum Turel {
 	E_Laser_6 UMETA(DisplayName = "Laser_6"),
 	E_FrostCannon_5 UMETA(DisplayName = "FrostCannon_5"),
 	E_FrostCannon_6 UMETA(DisplayName = "TeslaCannon_6"),
-
 };
 
 
