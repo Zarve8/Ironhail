@@ -16,7 +16,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		UTexture2D* TIcon;
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-		int BuyCost = 1000;
+		int BuyCost = 100;
+	TEnumAsByte<Turel> TurrelType = E_AutoCannon_5;
 public:
 	ATurrelExternalData() {
 		static ConstructorHelpers::FObjectFinder<UTexture2D> TurrelIcon(TEXT("/Game/Source/HUD/TurrelIcons/ChipCoin"));

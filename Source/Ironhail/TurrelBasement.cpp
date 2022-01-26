@@ -66,7 +66,7 @@ void  ATurrelBasement::CustomOnEndTouch(ETouchIndex::Type FingerIndex, UPrimitiv
 }
 // ++++++++++ Turrel Actions ++++++++++
 void  ATurrelBasement::SpawnTurrel(TEnumAsByte<Turel> Type) {
-	this->DestroyTurrel();
+	if (IsValid(ChildTurrel)) ChildTurrel->Destroy();
 	TSubclassOf<ATurrel> TType = PC->TFinder->GetTurrelClassByEnum(Type);
 	if (!IsValid(TType)) return;
 	FVector Loc = this->GetActorLocation();

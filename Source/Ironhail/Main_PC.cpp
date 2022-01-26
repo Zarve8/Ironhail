@@ -32,7 +32,8 @@ void AMain_PC::Tick(float DealtaTime) {
 }
 // ++++++++++ Menu Widgets Show/Hide ++++++++++
 void AMain_PC::HideAllWidgets() {
-
+	HideTurrelWidget();
+	HideBuildWidget();
 }
 void AMain_PC::CreateMenuBar() {
 	if (IsValid(MenuBarClass)) {
@@ -45,9 +46,6 @@ void AMain_PC::ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level) {
 	if (IsValid(TurrelShowCaseClass)) {
 		TurrelShowCase = CreateWidget<UUserWidget>(this, TurrelShowCaseClass);
 		TurrelShowCase->AddToPlayerScreen(6);
-	}
-	if (IsValid(TurrelShowCase)) {
-		UE_LOG(LogTemp, Error, TEXT("Showcase added"));
 	}
 }
 void AMain_PC::HideTurrelWidget() {
@@ -66,7 +64,7 @@ void AMain_PC::ShowPowerUpsWidget() {
 // TODO REDO
 void AMain_PC::ShowBuildWidget() {
 	for (int i = 0; i < 8; i++) {
-		BuildArrayData.Add(ExternalDataFabric(E_Empty));
+		BuildArrayData.Add(ExternalDataFabric(E_AutoCannon_5));
 	}
 	if (IsValid(MenuBuildClass)) {
 		this->MenuBuildWidget = CreateWidget<UUserWidget>(this, MenuBuildClass);
@@ -102,13 +100,24 @@ void AMain_PC::BuildButtonPressed() {
 		CurrentState = E_InBuildWidget;
 	}
 }
+void AMain_PC::BuyPressed(ATurrelExternalData* Data) {
+	if (!IsValid(Data)) return;
+	if (Data->TurrelType == E_Empty) return;
+	switch (CurrentState) {
+	case E_InBuildWidget:
+		CurrentState = E_SearchingPlaceToBuild;
+		SetAllForPlacement();
+		HideBuildWidget();
+		TurrelShowCaseData = Data;
+		return;
+	default:
+		return;
+	}
+}
 void AMain_PC::MissionButtonPressed() {
 
 }
 void AMain_PC::PowerUpButtonPressed() {
-
-}
-void AMain_PC::BuyPressed() {
 
 }
 void AMain_PC::MovePressed() {
@@ -164,8 +173,14 @@ void AMain_PC::TurrelTouched(AActor* NewBase) {
 			}
 		}
 		return;
-		//TODO
 	case E_SearchingPlaceToBuild:
+		if (ensure(A != B) && (B->TurrelType == E_Empty)) {
+			CurrentState = E_Playing;
+			B->SpawnTurrel(TurrelShowCaseData->TurrelType);
+			A->DestroyTurrel();
+			DeactivateAll();
+			SoftCoins -= TurrelShowCaseData->BuyCost;
+		}
 		return;
 	default:
 		if (B->ShowActiveTurrel()) {

@@ -28,7 +28,7 @@ protected:
 public:
 	ATurrelExternalData* ExternalDataFabric(TEnumAsByte<Turel> TurrelType);
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-		ATurrelExternalData* TurrelShowCaseData = nullptr;
+		ATurrelExternalData* TurrelShowCaseData = nullptr; //Also used for building
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		TArray<ATurrelExternalData*> BuildArrayData;
 	//Function to show Widgets:
@@ -46,11 +46,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void BuildButtonPressed();
 	UFUNCTION(BlueprintCallable)
+		void BuyPressed(ATurrelExternalData* Data);
+	UFUNCTION(BlueprintCallable)
 		void MissionButtonPressed();
 	UFUNCTION(BlueprintCallable)
 		void PowerUpButtonPressed();
-	UFUNCTION(BlueprintCallable)
-		void BuyPressed();
 	UFUNCTION(BlueprintCallable)
 		void MovePressed();
 	UFUNCTION(BlueprintCallable)
@@ -59,7 +59,7 @@ public:
 public:
 	void ScreenTouched();
 	void TurrelTouched(AActor* NewBase);
-	//State Actions
+	//State Actions/Variables
 protected:
 	void SetAllForPlacement();
 	void DeactivateAll();
@@ -73,7 +73,7 @@ public:
 	ATurrelClassFinder* TFinder = nullptr;
 	TEnumAsByte<MenuState> CurrentState = E_Playing;
 	UPROPERTY(BlueprintReadOnly)
-		int SoftCoins = 100;
+		int SoftCoins = 10000;
 	UPROPERTY(BlueprintReadOnly)
-		int HardCoins = 100;
+		int HardCoins = 10000;
 };

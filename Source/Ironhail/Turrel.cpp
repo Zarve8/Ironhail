@@ -18,7 +18,7 @@ void ATurrel::OnConstruction(const FTransform & Transform) {
 	}
 	else {
 		Head->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-		UE_LOG(LogTemp, Error, TEXT("Socket not found"));
+		UE_LOG(LogTemp, Error, TEXT("Head Socket not found"));
 	}
 	Head->SetRelativeScale3D(Head_Scale);
 }
