@@ -1,6 +1,7 @@
 #include "Turrel.h"
 
 
+// ++++++++++ Constructors ++++++++++
 ATurrel::ATurrel()
 {
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
@@ -33,6 +34,7 @@ void ATurrel::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+// ++++++++++ Functions for ActionMachine ++++++++++
 Action_AM* ATurrel::GetBaseAction() {
 	//UE_LOG(LogTemp, Error, TEXT("GetBaseAction"));
 	return new Search_AM(this);
@@ -59,6 +61,7 @@ void ATurrel::StartRotate() {
 	this->SetActorRotation(FRotator(0, Yaw, 0));
 	Head->SetRelativeRotation(FRotator(Pitch, 0, 0));
 }
+// ++++++++++ Finding Enemy ++++++++++
 AWalker* ATurrel::FindAnyEnemy() {
 	TArray<AActor*> FoundEnemies;
 	BaseLoc = GetActorLocation();

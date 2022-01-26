@@ -3,7 +3,6 @@
 
 
 AWalker* AMissileRack::FindEnemy() {
-	UE_LOG(LogTemp, Error, TEXT("Missle Finding TSart"));
 	return this->FindAnyEnemy();
 }
 //TODO redo with multiple shots

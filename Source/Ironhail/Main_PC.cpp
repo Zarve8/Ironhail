@@ -179,12 +179,14 @@ void AMain_PC::TurrelTouched(AActor* NewBase) {
 }
 // ++++++++++ State Actions ++++++++++
 void AMain_PC::SetAllForPlacement() {
+	UE_LOG(LogTemp, Error, TEXT("SetAllForPlacement"));
 	TArray<AActor*> BasesFound;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATurrelBasement::StaticClass(), BasesFound);
 	int index = 0;
 	while (BasesFound.IsValidIndex(index)) {
 		ATurrelBasement* B = Cast<ATurrelBasement>(BasesFound[index]);
 		B->ShowForPlacement();
+		index++;
 	}
 }
 void AMain_PC::DeactivateAll() {
@@ -194,5 +196,6 @@ void AMain_PC::DeactivateAll() {
 	while (BasesFound.IsValidIndex(index)) {
 		ATurrelBasement* B = Cast<ATurrelBasement>(BasesFound[index]);
 		B->Deactivate();
+		index++;
 	}
 }

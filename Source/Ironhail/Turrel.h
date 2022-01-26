@@ -17,17 +17,32 @@ UCLASS()
 class IRONHAIL_API ATurrel : public AActor, public IActionMachine, public ITurrelParticleHelper
 {
 	GENERATED_BODY()
+	//Constructors
 public:	
 	ATurrel();
-
-protected:
+	virtual void OnConstruction(const FTransform & Transform) override;
 	virtual void BeginPlay() override;
-	FVector BaseLoc = FVector(0, 0, 0);
-	FRotator Target_Rotation = FRotator(0, 0, 0);
+	virtual void Tick(float DeltaTime) override;
+	//Function for ActionMachine
+public:
+	virtual Action_AM* GetBaseAction() override;
+	virtual AWalker* FindEnemy() { return nullptr; UE_LOG(LogTemp, Error, TEXT("FindEnemy not overrided")); }
+	virtual float CalculateRotateTime();
+	virtual void StartRotate();
+	virtual void ProceedRotate(float delta_seconds) {}
+	virtual void FireToEnemy() {}
+	virtual void ProceedFire(float delta_seconds) {}
+	virtual void Reload() {}
+	virtual void ProceedReload(float delta_seconds) {}
+	virtual void EndReload() {}
+	//Finding enemy
+protected:
 	AWalker* FindAnyEnemy();
 	AWalker* FindNearestEnemy();
 	AWalker* FindToughestEnemy();
 	AWalker* FindWeakestEnemy();
+	//Body
+protected:
 	UPROPERTY(EditAnywhere, Category = A_Bath)
 		FVector Head_Scale = FVector(1, 1, 1);
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = A_Hull)
@@ -38,36 +53,27 @@ protected:
 		UParticleSystem* Fire_Particle;
 	FName Head_Socket_Name = TEXT("Head_Socket");
 	FName Head_Face_Socket_Name = TEXT("Face_Socket");
-
-public:	
+	//Local variables
+public:
 	AWalker* PreferedEnemy = nullptr;
-	virtual void Tick(float DeltaTime) override;
-	virtual void OnConstruction(const FTransform & Transform) override;
-	virtual Action_AM* GetBaseAction() override;
-	virtual AWalker* FindEnemy() {return nullptr; UE_LOG(LogTemp, Error, TEXT("FindEnemy not overrided"));}
-	virtual float CalculateRotateTime();
-	virtual void StartRotate();
-	virtual void ProceedRotate(float delta_seconds) {}
-	virtual void FireToEnemy() {}
-	virtual void ProceedFire(float delta_seconds) {}
-	virtual void Reload() {}
-	virtual void ProceedReload(float delta_seconds) {}
-	virtual void EndReload() {}
+protected:
+	FVector BaseLoc = FVector(0, 0, 0);
+	FRotator Target_Rotation = FRotator(0, 0, 0);
+	//Stats
+public:	
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float reload_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float shoot_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
-		float fire_distance = 100;
+		float fire_distance = 10000;
 };
-
 
 class Reload_AM : public Action_AM {
 	ATurrel* Owner;
 public:
 	Reload_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->reload_time;
-		//UE_LOG(LogTemp, Error, TEXT("Start Reload"));
 	}
 	virtual void Start() override {
 		Owner->Reload();
@@ -88,7 +94,6 @@ public:
 	}
 	virtual void Start() override {
 		Owner->FireToEnemy();
-		//UE_LOG(LogTemp, Error, TEXT("Start Fire"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedFire(delta_seconds);
@@ -103,11 +108,9 @@ class Rotate_AM : public Action_AM {
 public:
 	Rotate_AM(ATurrel* Owner) : Owner(Owner) {
 		seconds_left = Owner->CalculateRotateTime();
-		//UE_LOG(LogTemp, Error, TEXT("Calculating Rotate"));
 	}
 	virtual void Start() {
 		Owner->StartRotate();
-		//UE_LOG(LogTemp, Error, TEXT("Rotating"));
 	}
 	virtual void Proceed(float delta_seconds) {
 		Owner->ProceedRotate(delta_seconds);
@@ -129,7 +132,6 @@ public:
 	}
 	virtual void Start() override {
 		Owner->PreferedEnemy = Owner->FindEnemy();
-		//UE_LOG(LogTemp, Error, TEXT("Find Enemy"));
 	}
 	virtual Action_AM* Next() {
 		if (IsValid(Owner->PreferedEnemy)) {
