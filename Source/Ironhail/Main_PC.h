@@ -19,6 +19,8 @@ class IRONHAIL_API AMain_PC : public APlayerController
 	GENERATED_BODY()
 	//Widget Classes:
 protected:
+	TSubclassOf<UUserWidget> DarkToneClass;
+	UUserWidget* DarkToneWidget = nullptr;
 	TSubclassOf<UUserWidget> MenuBarClass;
 	UUserWidget* MenuBar = nullptr;
 	TSubclassOf<UUserWidget> TurrelShowCaseClass;
@@ -48,6 +50,8 @@ protected:
 		void HideBuildWidget();
 		void ShowMergeWidget();
 		void HideMergeWidget();
+		void ShowDarkToneWidget();
+		void HideDarkToneWidget();
 	//Functions called in widgets
 public:
 	UFUNCTION(BlueprintCallable)

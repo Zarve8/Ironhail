@@ -23,6 +23,10 @@ AMain_PC::AMain_PC() {
 	if (SObject3.Succeeded()) {
 		MergeMenuClass = SObject3.Class;
 	}
+	static ConstructorHelpers::FClassFinder<UUserWidget> SObject4(TEXT("/Game/Blueprints/Widgets/DarkTone_W"));
+	if (SObject4.Succeeded()) {
+		DarkToneClass = SObject4.Class;
+	}
 	TFinder = NewObject<ATurrelClassFinder>(); //Class to find Turrel Classes
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -39,6 +43,7 @@ void AMain_PC::HideAllWidgets() {
 	HideTurrelWidget();
 	HideBuildWidget();
 	HideMergeWidget();
+	HideDarkToneWidget();
 }
 void AMain_PC::CreateMenuBar() {
 	if (IsValid(MenuBarClass)) {
@@ -66,6 +71,19 @@ void AMain_PC::ShowMissionsWidget() {
 }
 void AMain_PC::ShowPowerUpsWidget() {
 
+}
+void AMain_PC::ShowDarkToneWidget() {
+	if (IsValid(DarkToneClass)) {
+		DarkToneWidget = CreateWidget<UUserWidget>(this, DarkToneClass);
+		DarkToneWidget->AddToPlayerScreen(0);
+	}
+}
+void AMain_PC::HideDarkToneWidget() {
+	if (IsValid(this->DarkToneWidget)) {
+		DarkToneWidget->RemoveFromParent();
+		DarkToneWidget->Destruct();
+		DarkToneWidget = nullptr;
+	}
 }
 // TODO REDO
 void AMain_PC::ShowBuildWidget() {
@@ -139,7 +157,7 @@ void AMain_PC::BuyPressed(ATurrelExternalData* Data) {
 	case E_InBuildWidget:
 		CurrentState = E_SearchingPlaceToBuild;
 		SetAllForPlacement();
-		HideBuildWidget();
+		ShowDarkToneWidget();
 		TurrelShowCaseData = Data;
 		return;
 	default:
@@ -155,6 +173,7 @@ void AMain_PC::PowerUpButtonPressed() {
 void AMain_PC::MovePressed() {
 	if (CurrentState == E_SearchingPlaceToMove) return;
 	CurrentState = E_SearchingPlaceToMove;
+	ShowDarkToneWidget();
 	SetAllForPlacement();
 }
 void AMain_PC::SellPressed() {
@@ -165,7 +184,7 @@ void AMain_PC::GiveSoftCoins(int amount) {
 }
 void AMain_PC::MergePressed(TEnumAsByte<Turel> TType, int rang) {
 	CurrentState = E_SearchingPlaceToMerge;
-	HideTurrelWidget();
+	ShowDarkToneWidget();
 	TArray<AActor*> BasesFound;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATurrelBasement::StaticClass(), BasesFound);
 	int index = 0;
@@ -195,6 +214,21 @@ void AMain_PC::ScreenTouched() {
 		A->Deactivate();
 		CurrentState = E_Playing;
 		return;
+	case E_InBuildWidget:
+		HideBuildWidget();
+		CurrentState = E_Playing;
+	case E_SearchingPlaceToBuild:
+		HideDarkToneWidget();
+		DeactivateAll();
+		CurrentState = E_InBuildWidget;
+	case E_SearchingPlaceToMove:
+		HideDarkToneWidget();
+		DeactivateAll();
+		CurrentState = E_ShowingTurrel;
+	case E_SearchingPlaceToMerge:
+		HideDarkToneWidget();
+		DeactivateAll();
+		CurrentState = E_ShowingTurrel;
 	default:
 		return;
 	}
@@ -214,11 +248,11 @@ void AMain_PC::TurrelTouched(AActor* NewBase) {
 		return;
 	case E_SearchingPlaceToMove:
 		if (ensure(A != B) && (B->TurrelType == E_Empty)) {
-			CurrentState = E_Playing;
+			CurrentState = E_ShowingTurrel;
 			B->SpawnTurrel(A->TurrelType, A->TurrelData);
 			ActiveBasement = NewBase;
 			A->DestroyTurrel();
-			HideTurrelWidget();
+			HideDarkToneWidget();
 			DeactivateAll();
 		}
 		return;
@@ -234,10 +268,11 @@ void AMain_PC::TurrelTouched(AActor* NewBase) {
 		return;
 	case E_SearchingPlaceToBuild:
 		if (ensure(A != B) && (B->TurrelType == E_Empty)) {
-			CurrentState = E_Playing;
+			CurrentState = E_InBuildWidget;
 			B->SpawnNewTurrel(TurrelShowCaseData->TurrelType);
 			ActiveBasement = NewBase;
 			DeactivateAll();
+			HideDarkToneWidget();
 			SoftCoins -= TurrelShowCaseData->BuyCost;
 		}
 		return;
