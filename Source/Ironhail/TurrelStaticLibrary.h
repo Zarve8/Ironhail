@@ -7,8 +7,6 @@
 
 UENUM(BlueprintType, Category = Turrels)
 enum Turel {
-	E_UnBuilt UMETA(DisplayName = "UnBuilt"),
-	E_OnConstruction UMETA(DisplayName = "OnConstruction"),
 	E_Empty UMETA(DisplayName = "Empty"),
 	E_AutoCannon_1 UMETA(DisplayName = "AutoCannon_1"),
 	E_AutoCannon_2 UMETA(DisplayName = "AutoCannon_2"),

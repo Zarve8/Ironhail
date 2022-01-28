@@ -4,6 +4,7 @@
 
  ATurrelClassFinder::ATurrelClassFinder() {
 	 PrimaryActorTick.bCanEverTick = false;
+	 // +++++++++++ Turrelclasses load ++++++++++
 	static ConstructorHelpers::FClassFinder<ATurrel> SObject00(TEXT("/Game/Blueprints/Turrels/EmptyTurrel_BP"));
 	if (SObject00.Succeeded()) {
 		Empty = SObject00.Class;
@@ -123,6 +124,21 @@
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Turrel Class not found"));
 	}
+	// +++++++++++ TurrelExternalData classes load ++++++++++
+	static ConstructorHelpers::FClassFinder<ATurrelExternalData> SObject16(TEXT("/Game/Blueprints/TurrelExternalDatas/AutoCannon_5_ED"));
+	if (SObject16.Succeeded()) {
+		AutoCannon_5_ED = SObject16.Class;
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("TurrelExternalData Class not found"));
+	}
+	static ConstructorHelpers::FClassFinder<ATurrelExternalData> SObject17(TEXT("/Game/Blueprints/TurrelExternalDatas/AutoCannon_6_ED"));
+	if (SObject17.Succeeded()) {
+		AutoCannon_6_ED = SObject17.Class;
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("TurrelExternalData Class not found"));
+	}
 }
 
 TSubclassOf<ATurrel> ATurrelClassFinder::GetTurrelClassByEnum(TEnumAsByte<Turel> Type) {
@@ -165,4 +181,47 @@ TSubclassOf<ATurrel> ATurrelClassFinder::GetTurrelClassByEnum(TEnumAsByte<Turel>
 	return Empty;
 }
 
+TSubclassOf<ATurrelExternalData> ATurrelClassFinder::GetDataClassByEnum(TEnumAsByte<Turel> Type) {
+	switch (Type) {
+	case E_AutoCannon_2:
+		return AutoCannon_2_ED;
+	case E_AutoCannon_3:
+		return AutoCannon_3_ED;
+	case E_AutoCannon_4:
+		return AutoCannon_4_ED;
+	case E_AutoCannon_5:
+		UE_LOG(LogTemp, Error, TEXT("5"));
+		return AutoCannon_5_ED;
+	case E_AutoCannon_6:
+		UE_LOG(LogTemp, Error, TEXT("6"));
+		return AutoCannon_6_ED;
+	case E_RocketPod_4:
+		return RocketPod_4_ED;
+	case E_RocketPod_5:
+		return RocketPod_5_ED;
+	case E_RocketPod_6:
+		return RocketPod_6_ED;
+	case E_LongArm_3:
+		return LongArm_3_ED;
+	case E_LongArm_4:
+		return LongArm_4_ED;
+	case E_LongArm_5:
+		return LongArm_5_ED;
+	case E_LongArm_6:
+		return LongArm_6_ED;
+	case E_Laser_5:
+		return Laser_5_ED;
+	case E_Laser_6:
+		return Laser_6_ED;
+	case E_FrostCannon_5:
+		return FrostCannon_5_ED;
+	case E_FrostCannon_6:
+		return FrostCannon_6_ED;
+	default:
+		UE_LOG(LogTemp, Error, TEXT("Wrong enum for EternalData"));
+		return None_ED;
+	}
+	UE_LOG(LogTemp, Error, TEXT("Wrong enum for EternalData"));
+	return None_ED;
+}
 

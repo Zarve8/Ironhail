@@ -7,6 +7,7 @@
 #include "PaperSprite.h"
 #include "Main_PC.h"
 #include "TurrelClassFinder.h"
+#include "TurrelInternalData.h"
 #include "TurrelBasement.generated.h"
 
 UCLASS()
@@ -42,8 +43,10 @@ public:
 		void CustomOnEndTouch(ETouchIndex::Type FingerIndex, UPrimitiveComponent* TouchedComponent);
 	//Turrel Actions/Prperties
 public:
-	int level = 1;
-	void SpawnTurrel(TEnumAsByte<Turel> Type);
+	ATurrelInternalData* TurrelData = nullptr;
+	void SpawnEmpty();
+	void SpawnTurrel(TEnumAsByte<Turel> Type, ATurrelInternalData* NewData);
+	void SpawnNewTurrel(TEnumAsByte<Turel> Type);
 	void DestroyTurrel();
 	TEnumAsByte<Turel> TurrelType = E_Empty;
 	ATurrel* ChildTurrel = nullptr;
@@ -51,5 +54,8 @@ public:
 public:
 	bool ShowForPlacement();
 	bool ShowActiveTurrel();
+	void ShowForMerge(TEnumAsByte<Turel> TType, int rang);
 	void Deactivate();
+	//Additional variables
+	bool can_merge = false;
 };

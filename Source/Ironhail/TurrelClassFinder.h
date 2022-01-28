@@ -3,6 +3,7 @@
 #include "GameFramework/Actor.h"
 #include "Turrel.h"
 #include "TurrelStaticLibrary.h"
+#include "TurrelExternalData.h"
 #include "TurrelClassFinder.generated.h"
 
 
@@ -29,7 +30,27 @@ private:
 	TSubclassOf<ATurrel> FrostCannon_6;
 	TSubclassOf<ATurrel> Laser_5;
 	TSubclassOf<ATurrel> Laser_6;
+	//TurrelExternalData Classes ref
+private:
+	TSubclassOf<ATurrelExternalData> None_ED = ATurrelExternalData::StaticClass();
+	TSubclassOf<ATurrelExternalData> AutoCannon_2_ED;
+	TSubclassOf<ATurrelExternalData> AutoCannon_3_ED;
+	TSubclassOf<ATurrelExternalData> AutoCannon_4_ED;
+	TSubclassOf<ATurrelExternalData> AutoCannon_5_ED;
+	TSubclassOf<ATurrelExternalData> AutoCannon_6_ED;
+	TSubclassOf<ATurrelExternalData> RocketPod_4_ED;
+	TSubclassOf<ATurrelExternalData> RocketPod_5_ED;
+	TSubclassOf<ATurrelExternalData> RocketPod_6_ED;
+	TSubclassOf<ATurrelExternalData> LongArm_3_ED;
+	TSubclassOf<ATurrelExternalData> LongArm_4_ED;
+	TSubclassOf<ATurrelExternalData> LongArm_5_ED;
+	TSubclassOf<ATurrelExternalData> LongArm_6_ED;
+	TSubclassOf<ATurrelExternalData> FrostCannon_5_ED;
+	TSubclassOf<ATurrelExternalData> FrostCannon_6_ED;
+	TSubclassOf<ATurrelExternalData> Laser_5_ED;
+	TSubclassOf<ATurrelExternalData> Laser_6_ED;
 public:
 	ATurrelClassFinder();
 	TSubclassOf<ATurrel> GetTurrelClassByEnum(TEnumAsByte<Turel> Type);
+	TSubclassOf<ATurrelExternalData> GetDataClassByEnum(TEnumAsByte<Turel> Type);
 };

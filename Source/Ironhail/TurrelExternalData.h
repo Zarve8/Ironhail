@@ -11,31 +11,24 @@ UCLASS()
 class IRONHAIL_API ATurrelExternalData : public AActor
 {
 	GENERATED_BODY()
-	//Constants
+	//Constants Merging
 public:
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-		UTexture2D* TIcon;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+		TArray<TEnumAsByte<Turel>> ChildTurrels;
+	//Constants Buy
+public:
+	UPROPERTY(BlueprintReadOnly, EditInstanceOnly)
+		TEnumAsByte<Turel> TurrelType = E_Empty;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		int BuyCost = 100;
-	TEnumAsByte<Turel> TurrelType = E_AutoCannon_5;
+	//Showcase Images/Text
+public:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+		UTexture2D* TIcon;
+	//Constructer
 public:
 	ATurrelExternalData() {
-		static ConstructorHelpers::FObjectFinder<UTexture2D> TurrelIcon(TEXT("/Game/Source/HUD/TurrelIcons/ChipCoin"));
-		if (TurrelIcon.Succeeded()) {
-			TIcon = TurrelIcon.Object;
-		}
-		else {
-			UE_LOG(LogTemp, Error, TEXT("Texture Icon Not found"));
-		}
 		PrimaryActorTick.bCanEverTick = true;
 	}
 };
 
-UCLASS()
-class IRONHAIL_API AProxyData_ED : public ATurrelExternalData {
-	GENERATED_BODY()
-public:
-	AProxyData_ED() : ATurrelExternalData() {
-
-	}
-};

@@ -9,6 +9,7 @@
 #include "TurrelClassFinder.h"
 #include "Engine.h"
 #include "MenuStateEnum.h"
+#include "TurrelInternalData.h"
 #include "Main_PC.generated.h"
 
 
@@ -24,23 +25,29 @@ protected:
 	UUserWidget* TurrelShowCase = nullptr;
 	TSubclassOf<UUserWidget> MenuBuildClass;
 	UUserWidget* MenuBuildWidget = nullptr;
-	//External Data for Widgets:
+	TSubclassOf<UUserWidget> MergeMenuClass;
+	UUserWidget* MergeWidget = nullptr;
+	//External/Internal Data for Widgets:
 public:
 	ATurrelExternalData* ExternalDataFabric(TEnumAsByte<Turel> TurrelType);
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		ATurrelExternalData* TurrelShowCaseData = nullptr; //Also used for building
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		TArray<ATurrelExternalData*> BuildArrayData;
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		ATurrelInternalData* ActiveTurrelData;
 	//Function to show Widgets:
 protected:
 	void HideAllWidgets();
 		void CreateMenuBar();
-		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, int level);
+		void ShowTurrelWidget(TEnumAsByte<Turel> TurrelType, ATurrelInternalData* TData);
 		void HideTurrelWidget();
 		void ShowMissionsWidget();
 		void ShowPowerUpsWidget();
 		void ShowBuildWidget();
 		void HideBuildWidget();
+		void ShowMergeWidget();
+		void HideMergeWidget();
 	//Functions called in widgets
 public:
 	UFUNCTION(BlueprintCallable)
@@ -55,6 +62,12 @@ public:
 		void MovePressed();
 	UFUNCTION(BlueprintCallable)
 		void SellPressed();
+	UFUNCTION(BlueprintCallable)
+		void GiveSoftCoins(int amount);
+	UFUNCTION(BlueprintCallable)
+		void MergePressed(TEnumAsByte<Turel> TType, int rang);
+	UFUNCTION(BlueprintCallable)
+		void MergeChoosePressed(ATurrelExternalData* TData);
 	//Functions called from Basement
 public:
 	void ScreenTouched();
@@ -70,6 +83,7 @@ public:
 	void Tick(float DealtaTime) override;
 public:
 	AActor* ActiveBasement = nullptr;
+	AActor* SecondActiveBasement = nullptr;
 	ATurrelClassFinder* TFinder = nullptr;
 	TEnumAsByte<MenuState> CurrentState = E_Playing;
 	UPROPERTY(BlueprintReadOnly)

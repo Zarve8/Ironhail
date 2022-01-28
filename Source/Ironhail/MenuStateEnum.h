@@ -9,6 +9,8 @@ enum MenuState {
 	E_InBuildWidget UMETA(DisplayName = "InBuildWidget"),
 	E_SearchingPlaceToBuild UMETA(DisplayName = "SearchingPlaceToBuild"),
 	E_ShowingTurrel UMETA(DisplayName = "ShowingTurrel"),
-	E_SearchingPlaceToMove UMETA(DisplayName = "SearchingPlaceToMove")
+	E_SearchingPlaceToMove UMETA(DisplayName = "SearchingPlaceToMove"),
+	E_SearchingPlaceToMerge UMETA(DisplayName = "SearchingPlaceToMerge"),
+	E_ChoosingToMerge UMETA(DisplayName = "ChoosingToMerge")
 };
 
