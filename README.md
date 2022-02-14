@@ -1,2 +1,0 @@
-# Ironhail
-Game files

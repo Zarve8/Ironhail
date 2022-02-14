@@ -1,4 +1,3 @@
-#pragma once
 #include "TouchBackground.h"
 #include "UObject/ConstructorHelpers.h"
 #include "TurrelBasement.h"

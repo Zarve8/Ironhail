@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.24",
+	"EngineAssociation": "4.27",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -13,5 +13,10 @@
 				"CoreUObject"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"Android",
+		"IOS",
+		"WindowsNoEditor"
 	]
 }

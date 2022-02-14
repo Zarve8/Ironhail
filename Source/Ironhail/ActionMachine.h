@@ -29,7 +29,7 @@ public:
 class Sleep_AM : public Action_AM {
 	Action_AM* Current;
 public:
-	Sleep_AM(Action_AM* Currrent) : Current(Current) {
+	Sleep_AM(Action_AM* Current) : Current(Current) {
 		seconds_left = 100;
 	}
 	void Proceed(float delta_seconds) override {

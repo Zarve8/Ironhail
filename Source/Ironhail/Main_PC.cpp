@@ -1,4 +1,3 @@
-#pragma once
 #include "Main_PC.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "TurrelBasement.h"
@@ -33,7 +32,7 @@ AMain_PC::AMain_PC() {
 void AMain_PC::BeginPlay() {
 	Super::BeginPlay();
 	CreateMenuBar();
-	UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this, false, false);
+	// UWidgetBlueprintLibrary::SetInputMode_GameAndUI(this, false, false);
 }
 void AMain_PC::Tick(float DealtaTime) {
 
@@ -121,7 +120,7 @@ void AMain_PC::ShowMergeWidget() {
 	
 }
 void AMain_PC::HideMergeWidget() {
-	if (IsValid(this->MenuBuildWidget)) {
+	if (IsValid(this->MergeWidget)) {
 		MergeWidget->RemoveFromParent();
 		MergeWidget->Destruct();
 		MergeWidget = nullptr;
@@ -183,6 +182,7 @@ void AMain_PC::GiveSoftCoins(int amount) {
 	SoftCoins -= amount;
 }
 void AMain_PC::MergePressed(TEnumAsByte<Turel> TType, int rang) {
+	if (CurrentState == E_SearchingPlaceToMerge) return;
 	CurrentState = E_SearchingPlaceToMerge;
 	ShowDarkToneWidget();
 	TArray<AActor*> BasesFound;
@@ -207,6 +207,7 @@ void AMain_PC::MergeChoosePressed(ATurrelExternalData* TData) {
 }
 // ++++++++++ Input From Basements ++++++++++
 void AMain_PC::ScreenTouched() {
+	//PrintMenuState(CurrentState);
 	ATurrelBasement* A = Cast<ATurrelBasement>(ActiveBasement);
 	switch (CurrentState) {
 	case E_ShowingTurrel:
@@ -217,18 +218,22 @@ void AMain_PC::ScreenTouched() {
 	case E_InBuildWidget:
 		HideBuildWidget();
 		CurrentState = E_Playing;
+		return;
 	case E_SearchingPlaceToBuild:
 		HideDarkToneWidget();
 		DeactivateAll();
 		CurrentState = E_InBuildWidget;
+		return;
 	case E_SearchingPlaceToMove:
 		HideDarkToneWidget();
 		DeactivateAll();
 		CurrentState = E_ShowingTurrel;
+		return;
 	case E_SearchingPlaceToMerge:
 		HideDarkToneWidget();
 		DeactivateAll();
 		CurrentState = E_ShowingTurrel;
+		return;
 	default:
 		return;
 	}
@@ -279,6 +284,7 @@ void AMain_PC::TurrelTouched(AActor* NewBase) {
 	case E_SearchingPlaceToMerge:
 		if (ensure(A != B) && B->can_merge) {
 			SecondActiveBasement = B;
+			HideTurrelWidget();
 			ShowMergeWidget();
 			DeactivateAll();
 			CurrentState = E_ChoosingToMerge;
