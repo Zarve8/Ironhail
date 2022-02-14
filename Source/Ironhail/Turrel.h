@@ -66,7 +66,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float shoot_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
-		float fire_distance = 10000;	
+		float fire_distance = 10000;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		float damage = 10;
+	//Stats upgraded with modifiers
+public:
+	float cur_reload_time = 10;
+	float cu_shoot_time = 10;
+	float cur_fire_distance = 10000;
+	float bullet_speed_cof = 1;
+	float cur_damage = 10;
+	bool freeze = false;
+	bool burn = false;
+	bool lightning = false;
+	float freeze_time = 0;
 };
 
 class Reload_AM : public Action_AM {

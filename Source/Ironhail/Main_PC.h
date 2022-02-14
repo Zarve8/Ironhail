@@ -10,6 +10,7 @@
 #include "Engine.h"
 #include "MenuStateEnum.h"
 #include "TurrelInternalData.h"
+#include "MemoryMachine.h"
 #include "Main_PC.generated.h"
 
 
