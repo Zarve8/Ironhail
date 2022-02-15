@@ -1,6 +1,4 @@
 #pragma once
-#include "Turrel.h"
-#include "UObject/SoftObjectPath.h"
 #include "TurrelStaticLibrary.generated.h"
 
 

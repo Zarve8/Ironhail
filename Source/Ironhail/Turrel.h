@@ -9,6 +9,7 @@
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStaticsTypes.h"
 #include "ParticleDefinitions.h"
+#include "SkillLibrary.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Turrel.generated.h"
@@ -61,7 +62,7 @@ protected:
 	FRotator Target_Rotation = FRotator(0, 0, 0);
 	//Stats
 public:	
-	UPROPERTY(EditAnywhere, Category = A_Stats)
+	UPROPERTY(EditAnywhere, Category = A_Stats) //Shoot stats
 		float reload_time = 10;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float shoot_time = 10;
@@ -69,17 +70,49 @@ public:
 		float fire_distance = 10000;
 	UPROPERTY(EditAnywhere, Category = A_Stats)
 		float damage = 10;
-	//Stats upgraded with modifiers
-public:
-	float cur_reload_time = 10;
-	float cu_shoot_time = 10;
-	float cur_fire_distance = 10000;
 	float bullet_speed_cof = 1;
-	float cur_damage = 10;
-	bool freeze = false;
-	bool burn = false;
-	bool lightning = false;
-	float freeze_time = 0;
+	UPROPERTY(EditAnywhere, Category = A_Stats) //Freeze stats
+		bool is_freeze = false;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		float freeze_time = 0;
+	UPROPERTY(EditAnywhere, Category = A_Stats) //Lightning stats
+		bool is_lightning = false;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		int lightning_count = 0;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		float lightning_damage = 10;
+	UPROPERTY(EditAnywhere, Category = A_Stats) //Burn stats
+		bool is_burn = false;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		float burning_time = 0;
+	UPROPERTY(EditAnywhere, Category = A_Stats)
+		float burning_damage = 10;
+	//Base Stats
+public:
+	float base_reload_time = 10;
+	float base_shoot_time = 10;
+	float base_fire_distance = 10000;
+	float base_damage = 10;
+	bool base_is_freeze = false;
+	float base_freeze_time = 0;
+	bool base_is_lightning = false;
+	int base_lightning_count = 0;
+	float base_lightning_damage = 0;
+	bool base_is_burn = false;
+	float base_burning_time = 0;
+	float base_burning_damage = 0;
+	//Modifiers and Skills
+public:
+	UPROPERTY(EditAnywhere)
+		TEnumAsByte<Mod> SelfMod = E_NoneMod;
+	void BackUp_Stats();
+	void Reset_Mod();
+	void Apply_Mod(TEnumAsByte<Mod> NMod);
+	void Apply_Array_Mod(TArray<TEnumAsByte<Mod>> NArray);
+	//Modifier Constants
+public:
+	const float additive_freeze_time = 0.5;
+	const float additive_burn_time = 0.33;
 };
 
 class Reload_AM : public Action_AM {

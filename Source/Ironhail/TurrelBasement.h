@@ -8,6 +8,7 @@
 #include "Main_PC.h"
 #include "TurrelClassFinder.h"
 #include "TurrelInternalData.h"
+#include "SkillLibrary.h"
 #include "TurrelBasement.generated.h"
 
 UCLASS()
@@ -58,4 +59,12 @@ public:
 	void Deactivate();
 	//Additional variables
 	bool can_merge = false;
+	//Modifiers Functions
+public:
+	TArray<TEnumAsByte<Mod>> Given_Mods;
+	TArray<ATurrelBasement*> Connected_Basements;
+	void Get_Mod(TEnumAsByte<Mod> NMod);
+	void Give_Mod();
+	void Remove_Mod(TEnumAsByte<Mod> RMod);
+
 };

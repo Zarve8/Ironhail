@@ -123,10 +123,36 @@ void ATurrelBasement::ShowForMerge(TEnumAsByte<Turel> TType, int rang) {
 }
 bool ATurrelBasement::ShowActiveTurrel(){
 	if (TurrelType != E_Empty) {
+		DistanceSprite->SetRelativeScale3D(FVector(0.004, 0.004, 0.004) * ChildTurrel->fire_distance);
 		DistanceSprite->SetVisibility(true, false);
 		return true;
 	}
 	return false;
 }
-
+// ++++++++++ Modifier Functions ++++++++++
+void ATurrelBasement::Get_Mod(TEnumAsByte<Mod> NMod) {
+	Given_Mods.Add(NMod);
+	if (IsValid(ChildTurrel)) {
+		ChildTurrel->Apply_Array_Mod(Given_Mods);
+	}
+}
+void ATurrelBasement::Give_Mod() {
+	int index = 0;
+	TEnumAsByte<Mod> SelfMod;
+	if(IsValid(ChildTurrel)) SelfMod = ChildTurrel->SelfMod;
+	else SelfMod = E_NoneMod;
+	while (Connected_Basements.IsValidIndex(index)) {
+		ATurrelBasement* B = Connected_Basements[index];
+		if (IsValid(B)) {
+			B->Get_Mod(SelfMod);
+		}
+		index++;
+	}
+}
+void ATurrelBasement::Remove_Mod(TEnumAsByte<Mod> RMod) {
+	Given_Mods.Remove(RMod);
+	if (IsValid(ChildTurrel)) {
+		ChildTurrel->Apply_Array_Mod(Given_Mods);
+	}
+}
 

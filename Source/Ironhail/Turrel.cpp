@@ -25,6 +25,7 @@ void ATurrel::OnConstruction(const FTransform & Transform) {
 void ATurrel::BeginPlay()
 {
 	this->SetActorEnableCollision(ECollisionEnabled::NoCollision);
+	BackUp_Stats();
 	ActionBeginPlay();
 	Super::BeginPlay();
 }
@@ -126,4 +127,71 @@ AWalker* ATurrel::FindWeakestEnemy() {
 		}
 	}
 	return WeakestEnemy;
+}
+// ++++++++++ Modifiers Funcs ++++++++++
+void ATurrel::BackUp_Stats() {
+	base_reload_time = reload_time;
+	base_shoot_time = shoot_time;
+	base_fire_distance = fire_distance;
+	base_damage = damage;
+	base_is_freeze = is_freeze;
+	base_freeze_time = freeze_time;
+	base_is_lightning = is_lightning;
+	base_lightning_count = lightning_count;
+	base_lightning_damage = lightning_damage;
+	base_is_burn = is_burn;
+	base_burning_time = burning_time;
+	base_burning_damage = burning_damage;
+}
+void ATurrel::Reset_Mod() {
+	reload_time = base_reload_time;
+	shoot_time = base_shoot_time;
+	fire_distance = base_fire_distance;
+	damage = base_damage;
+	is_freeze = base_is_freeze;
+	freeze_time = base_freeze_time;
+	is_lightning = base_is_lightning;
+	lightning_count = base_lightning_count;
+	lightning_damage = base_lightning_damage;
+	is_burn = base_is_burn;
+	burning_time = base_burning_time;
+	burning_damage = base_burning_damage;
+	bullet_speed_cof = 1.0;
+}
+void ATurrel::Apply_Mod(TEnumAsByte<Mod> NMod) {
+	switch (NMod) {
+			case E_RapidFire:
+				reload_time *= 0.8;
+				return;
+			case E_HighDamage:
+				damage *= 1.2;
+				return;
+			case E_Pesto:
+				bullet_speed_cof *= 1.25;
+				return;
+			case E_Frost:
+				is_freeze = true;
+				freeze_time += additive_freeze_time;
+				return;
+			case E_Burn:
+				is_burn = true;
+				burning_time += additive_burn_time;
+				return;
+			case E_LongRange:
+				fire_distance += 2000;
+				return;
+			case E_Lightning:
+				is_lightning = true;
+				lightning_count += 1;
+			default:
+				return;
+	}
+}
+void ATurrel::Apply_Array_Mod(TArray<TEnumAsByte<Mod>> NArray) {
+	Reset_Mod();
+	int index = 0;
+	while (NArray.IsValidIndex(index)) {
+		Apply_Mod(NArray[index]);
+		index++;
+	}
 }
